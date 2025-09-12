@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simulador de Fútbol — Simular</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="navbar container">
+      <a href="index.html" class="brand">⚽ SimFútbol</a>
+      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a class="active" href="simular.html">Simular</a></li>
+        <li><a href="stats.html">Resultados</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h1>Configurar partido</h1>
+      <form id="matchForm" novalidate>
+        <div class="grid-2">
+
+          <!--Seleccion equipo local-->
+          <div class="form-field">         
+            <label for="teamA">Local</label>
+            <select id="teamA" name="teamA" required>
+              <option value="">— Selecciona un equipo —</option>
+            </select>
+            <small class="error" data-for="teamA"></small>
+            
+            <!--Carga escudo Generico equipo Local-->
+            <div class="team-preview">
+              <img id="crestA" src="assets/img/escudos/gen.png"
+                  alt="Escudo no seleccionado" width="64" height="64" loading="lazy" decoding="async">
+              <small class="error" data-for="teamA"></small>
+            </div>
+          </div>
+
+          <!--Seleccion equipo visitante-->
+          <div class="form-field">
+            <label for="teamB">Visita</label>
+            <select id="teamB" name="teamB" required>
+              <option value="">— Selecciona un equipo —</option>
+            </select>
+            <small class="error" data-for="teamB"></small>
+
+            <!--Carga escudo Generico equipo Local-->
+            <div class="team-preview">
+              <img id="crestB" src="assets/img/escudos/gen.png"
+                  alt="Escudo no seleccionado" width="64" height="64" loading="lazy" decoding="async">
+              <small class="error" data-for="teamB"></small>
+            </div>
+          </div>
+
+          <!--Stats equipo local-->
+          <div class="form-field">
+            <label for="ratingA">Stats Equipo Local (1–100)</label>
+            <input id="ratingA" name="ratingA" type="number" required min="1" max="100" value="70" />
+            <small class="error" data-for="ratingA"></small>
+          </div>
+
+          <!--Stats equipo visitante-->
+          <div class="form-field">
+            <label for="ratingB">Nivel Equipo visitante (1–100)</label>
+            <input id="ratingB" name="ratingB" type="number" required min="1" max="100" value="70" />
+            <small class="error" data-for="ratingB"></small>
+          </div>
+
+          <!--Seleccion clima-->
+          <div class="form-field">
+            <label for="weather">Clima</label>
+            <select id="weather" name="weather">
+              <option value="normal">Normal</option>
+              <option value="lluvia">Lluvia</option>
+              <option value="viento">Viento</option>
+              <option value="calor">Calor extremo</option>
+            </select>
+          </div>
+
+          <!--Seleccion ritmo de juego-->
+          <div class="form-field">
+            <label for="pace">Ritmo del partido</label>
+            <select id="pace" name="pace">
+              <option value="equilibrado">Equilibrado</option>
+              <option value="ofensivo">Ofensivo</option>
+              <option value="defensivo">Defensivo</option>
+            </select>
+          </div>
+
+          <!--Duracion del partido-->
+          <div class="form-field">
+            <label for="duration">Duración (minutos)</label>
+            <input id="duration" name="duration" type="number" min="30" max="120" value="90" />
+            <small class="error" data-for="duration"></small>
+          </div>
+        </div>
+
+        <!--botones para simular y limpiar-->
+        <div class="actions">
+          <button type="submit" class="btn primary">Simular</button>
+          <button type="reset" class="btn outline">Limpiar</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="resultSection" class="card hidden" aria-live="polite">
+      <h2>Resultado</h2>
+      <p id="scoreline"></p>
+      <div id="events" class="event-log"></div>
+      <div class="actions">
+        <button id="saveMatch" class="btn">Guardar resultado</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <small>2025 SimFútbol.</small>
+      <div class="footer-actions">
+        <a class="btn" href="stats.html">Ver resultados</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/app.js" defer></script>
+</body>
+
+</html>
