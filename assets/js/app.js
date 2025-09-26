@@ -15,10 +15,10 @@ document.addEventListener('click', (e) => {
 // Catálogo de equipos 
 // ===============================
 const TEAMS = [
-  { id: "colo",     name: "Colo-Colo",                      defaultRating: 78, crest:"assets/img/escudos/colo.png" },
-  { id: "udechile", name: "Universidad de Chile",           defaultRating: 60, crest:"assets/img/escudos/laU.png" },
-  { id: "cato",     name: "Universidad Catolica de Chile",  defaultRating: 56, crest:"assets/img/escudos/cato.png"},
-  {id:  "uniEsp",   name: "Union Española",                 defaultRating: 40, crest:"assets/img/escudos/uniEsp.png" }
+  { id: "colo",     name: "Colo-Colo",               defaultRating: 78, crest:"assets/img/escudos/colo.png" },
+  { id: "udechile", name: "Universidad de Chile",    defaultRating: 60, crest:"assets/img/escudos/laU.png" },
+  { id: "cato",     name: "Universidad Catolica",    defaultRating: 56, crest:"assets/img/escudos/cato.png"},
+  {id:  "uniEsp",   name: "Union Española",          defaultRating: 40, crest:"assets/img/escudos/uniEsp.png" }
   // nuevos equipos 
 
 ];
@@ -104,10 +104,17 @@ function validateRange(input, min, max) {
 }
 
 function addSuggestions(teamAEl, teamBEl) {
-  if (teamAEl.value && teamBEl.value && teamAEl.value === teamBEl.value) {
+  // Si falta alguno, no tocar mensajes (no limpiar errores reales)
+  if (!teamAEl.value || !teamBEl.value) return;
+
+  if (teamAEl.value === teamBEl.value) {
     setError(teamBEl, 'Sugerencia: usa equipos distintos.');
   } else {
-    setError(teamBEl, '');
+    // Solo limpia si el mensaje previo era una "Sugerencia"
+    const small = document.querySelector(`.error[data-for="${teamBEl.id}"]`);
+    if (small && small.textContent.startsWith('Sugerencia')) {
+      setError(teamBEl, '');
+    }
   }
 }
 
