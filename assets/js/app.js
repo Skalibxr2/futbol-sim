@@ -12,18 +12,26 @@ document.addEventListener('click', (e) => {
 });
 
 // ===============================
-// Catálogo de equipos (editable)
+// Catálogo de equipos 
 // ===============================
 const TEAMS = [
-  { id: "colo",     name: "Colo-Colo",            defaultRating: 78, crest:"assets/img/escudos/colo.png" },
-  { id: "udechile", name: "Universidad de Chile", defaultRating: 60, crest:"assets/img/escudos/laU.png" },
-  { id: "cato",     name: "Universidad Catolica de Chile", defaultRating: 56, crest:"assets/img/escudos/cato.png"}
+  { id: "colo",     name: "Colo-Colo",                      defaultRating: 78, crest:"assets/img/escudos/colo.png" },
+  { id: "udechile", name: "Universidad de Chile",           defaultRating: 60, crest:"assets/img/escudos/laU.png" },
+  { id: "cato",     name: "Universidad Catolica de Chile",  defaultRating: 56, crest:"assets/img/escudos/cato.png"},
+  {id:  "uniEsp",   name: "Union Española",                 defaultRating: 40, crest:"assets/img/escudos/uniEsp.png" }
   // nuevos equipos 
 
 ];
 
+// ===============================
+// escudo por defecto
+// ===============================
 const gen_crest = "assets/img/escudos/gen.png"
 
+
+// ===============================
+// Cargar lista de equipos
+// ===============================
 function populateTeamSelect(selectEl) {
 
   TEAMS.forEach(t => {
@@ -34,11 +42,17 @@ function populateTeamSelect(selectEl) {
   });
 }
 
+// ===============================
+// obtiene un equipo por su id
+// ===============================
 function getTeamById(id) {
   return TEAMS.find(t => t.id === id);
 }
 
+// ===============================
 // Cambia el escudo y gestiona rating
+// ===============================
+
 function updateCrest(selectEl, imgEl, ratingInput) {
   const team = getTeamById(selectEl.value);
   if (!team) {
@@ -59,6 +73,11 @@ function updateCrest(selectEl, imgEl, ratingInput) {
 // ===============================
 // Validación y utilidades comunes
 // ===============================
+
+
+// ===============================
+// Setea el mensaje de error
+// ===============================
 function setError(input, message) {
   const small = document.querySelector(`.error[data-for="${input.id}"]`);
   if (small) small.textContent = message || '';
@@ -66,7 +85,15 @@ function setError(input, message) {
 }
 
 function validateTeamSelect(selectEl) {
-  setError(selectEl, selectEl && selectEl.value ? '' : 'Selecciona un equipo.');
+
+   const empty = !(selectEl && selectEl.value);
+  const msg = empty
+    ? (selectEl.id === 'teamA'
+        ? 'Debe seleccionar un equipo local antes de simular.'
+        : 'Debe seleccionar un equipo visitante antes de simular.')
+    : '';
+  setError(selectEl, msg);
+  return !empty;
 }
 
 function validateRange(input, min, max) {
@@ -192,7 +219,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Envío del formulario → simular y mostrar resultado (AQUÍ va la simulación)
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      if (!validateAll()) return;
+      if (!validateAll()) {
+        const firstError = document.querySelector('[aria-invalid="true"]');
+        if (firstError) firstError.focus();
+        return; // NO simular si hay errores
+      }
 
       const A = getTeamById(teamA.value);
       const B = getTeamById(teamB.value);
